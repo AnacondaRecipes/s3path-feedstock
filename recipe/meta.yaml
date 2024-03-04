@@ -11,29 +11,39 @@ source:
 
 build:
   number: 0
-  noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  skip: True  # [py<38]
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
     - pip
-    - python >=3.8
+    - python
+    - wheel
+    - setuptools
   run:
-    - python >=3.8
+    - python
     - boto3 >=1.16.35
     - smart_open
-    - packaging
 
 test:
   imports:
     - s3path
+  requires:
+    - pip
+  commands:
+    - pip check
 
 about:
   home: https://github.com/liormizr/s3path
+  dev_url: https://github.com/liormizr/s3path
+  doc_url: https://github.com/liormizr/s3path/blob/master/README.rst
   license: Apache-2.0
   license_family: APACHE
   license_file: LICENSE
   summary: Pathlib Extension for AWS S3 Service, to provide File-System/Path like interface
+  description: |
+    S3Path provide a Python convenient File-System/Path like interface for AWS S3 Service 
+    using boto3 S3 resource as a driver.
 
 extra:
   recipe-maintainers:
