@@ -32,10 +32,15 @@ test:
 
 about:
   home: https://github.com/liormizr/s3path
+  dev_url: https://github.com/liormizr/s3path
+  doc_url: https://github.com/liormizr/s3path/blob/master/README.rst
   license: Apache-2.0
   license_family: APACHE
   license_file: LICENSE
   summary: Pathlib Extension for AWS S3 Service, to provide File-System/Path like interface
+  description: |
+    S3Path provide a Python convenient File-System/Path like interface for AWS S3 Service 
+    using boto3 S3 resource as a driver.
 
 extra:
   recipe-maintainers:
