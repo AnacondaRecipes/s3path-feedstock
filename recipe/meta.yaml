@@ -29,6 +29,10 @@ requirements:
 test:
   imports:
     - s3path
+  requires:
+    - pip
+  commands:
+    - pip check
 
 about:
   home: https://github.com/liormizr/s3path
