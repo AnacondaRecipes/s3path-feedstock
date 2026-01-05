@@ -1,17 +1,17 @@
 {% set name = "s3path" %}
-{% set version = "0.5.2" %}
+{% set version = "0.6.4" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 29f3e20fa79d06b645cc839bf027c0a36172030ddd5c7b6cddca67babd4b02dc
+  url: https://github.com/liormizr/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
+  sha256: 9036c9308d00ebc7fb707093ecf6d5edc232d8f99bd411f4c7afe95a98af6665
 
 build:
   number: 0
-  skip: True  # [py<38]
+  skip: True  # [py<39]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
@@ -23,15 +23,20 @@ requirements:
   run:
     - python
     - boto3 >=1.16.35
-    - smart_open
+    - smart_open >=5.1.0
 
 test:
+  source_files:
+    - tests
   imports:
     - s3path
   requires:
     - pip
+    - pytest
+    - moto
   commands:
     - pip check
+    - pytest -v
 
 about:
   home: https://github.com/liormizr/s3path
