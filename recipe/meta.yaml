@@ -42,9 +42,9 @@ test:
     - pip check
     - pytest -v  # [py<312]
     # Failed: DID NOT WARN. No warnings of type (<class 'DeprecationWarning'>, <class 'PendingDeprecationWarning'>, <class 'FutureWarning'>) were emitted.
-    - pytest -vv -k "not (test_glob_old_algo or test_rglob_old_algo or test_accessor_scandir_old_algo)"  # [py>=312 and unix]
+    - pytest -vv -k "not (test_glob_old_algo or test_rglob_old_algo or test_accessor_scandir_old_algo)"  # [unix]
     # NotImplementedError: cannot instantiate 'PosixPath' on your system
-    - pytest -vv -k "not (test_glob_old_algo or test_rglob_old_algo or test_accessor_scandir_old_algo or test_walk or test_walk_order)"  # [py>=312 and win]
+    - pytest -vv -k "not (test_glob_old_algo or test_rglob_old_algo or test_accessor_scandir_old_algo or test_walk or test_walk_order)"  # [win]
 
 about:
   home: https://github.com/liormizr/s3path
@@ -57,16 +57,6 @@ about:
   description: |
     S3Path provide a Python convenient File-System/Path like interface for AWS S3 Service
     using boto3 S3 resource as a driver.
-
-
-
-
-
-
-
-
-
-
 
 extra:
   recipe-maintainers:
