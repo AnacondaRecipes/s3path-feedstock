@@ -1,17 +1,21 @@
 {% set name = "s3path" %}
-{% set version = "0.6.4" %}
+{% set version = "0.6.5" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://github.com/liormizr/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
-  sha256: 9036c9308d00ebc7fb707093ecf6d5edc232d8f99bd411f4c7afe95a98af6665
+  sha256: 3a99ce73d60579883842f1d9d51b6aedd2e1abc0bcdb5534b268de5cb6cce9c6
+  patches:
+    # S3 keys are always case-sensitive regardless of host OS,
+    # so this line make no sense in test. 
+    - patches/0001-Fix-matching-test.patch
 
 build:
   number: 0
-  skip: True  # [py<39]
+  skip: true  # [py<39]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
@@ -36,11 +40,11 @@ test:
     - moto
   commands:
     - pip check
-    - pytest -v # [py<312]
+    - pytest -v  # [py<312]
     # Failed: DID NOT WARN. No warnings of type (<class 'DeprecationWarning'>, <class 'PendingDeprecationWarning'>, <class 'FutureWarning'>) were emitted.
-    - pytest -v -k "not (test_glob_old_algo or test_rglob_old_algo or test_accessor_scandir_old_algo)" # [py>=312 and unix]
+    - pytest -vv -k "not (test_glob_old_algo or test_rglob_old_algo or test_accessor_scandir_old_algo)"  # [unix]
     # NotImplementedError: cannot instantiate 'PosixPath' on your system
-    - pytest -v -k "not (test_glob_old_algo or test_rglob_old_algo or test_accessor_scandir_old_algo or test_walk or test_walk_order)" # [py>=312 and win]
+    - pytest -vv -k "not (test_glob_old_algo or test_rglob_old_algo or test_accessor_scandir_old_algo or test_walk or test_walk_order)"  # [win]
 
 about:
   home: https://github.com/liormizr/s3path
@@ -51,7 +55,7 @@ about:
   license_file: LICENSE
   summary: Pathlib Extension for AWS S3 Service, to provide File-System/Path like interface
   description: |
-    S3Path provide a Python convenient File-System/Path like interface for AWS S3 Service 
+    S3Path provide a Python convenient File-System/Path like interface for AWS S3 Service
     using boto3 S3 resource as a driver.
 
 extra:
